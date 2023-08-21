@@ -36,9 +36,9 @@ const startRound = () => {
   char = String.fromCharCode(letterCode)
   charEl.textContent = char
   
-  charEl.className.baseVal = ''
+  charEl.className = ''
   window.requestAnimationFrame(() => {
-    charEl.className.baseVal = 'animate-blur'    
+    charEl.className = 'animate-blur'    
   })
   
   input.value = ''
@@ -49,8 +49,7 @@ const startRound = () => {
 }
 
 startButton.addEventListener('click', () => {
-  playScreen.hidden = false
-  startScreen.hidden = true
+  startScreen.classList.add('slide-out')
   
   startRound()
 })
@@ -64,7 +63,7 @@ input.addEventListener('keydown', () => {
 })
 
 input.addEventListener('keyup', () => {
-  charEl.className.baseVal = 'no-blur'
+  charEl.className = 'no-blur'
 
   if (input.value.toUpperCase() === char) {
     points += time
