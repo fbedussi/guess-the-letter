@@ -104,14 +104,15 @@ const updatePoints = (guessed) => {
   }
 }
 
-ui.input.addEventListener('keydown', async (ev) => {
-  ev.preventDefault()
-  
+// ui.input.addEventListener('keydown', async (ev) => {
+//   ev.preventDefault()
+// })
+
+ui.input.addEventListener('input', async (ev) => {
   ui.char.classList.add('no-blur')
 
   clearInterval(state.interval)
-  const typedChar = ev.key.toLowerCase() === 'unidentified' ? ev.currentTarget.value[0] : ev.key
-  const value = typedChar.toUpperCase()
+  const value = ev.data.toUpperCase()
   if (value.length > 1 || value < 'A' || value > 'Z') {
     return
   } 

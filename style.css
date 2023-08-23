@@ -318,9 +318,9 @@ progress {
   width: 100%;
   aspect-ratio: 1;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
-  font-size: clamp(20px, 33vw, 15vh);
+  font-size: clamp(20px, 33vw, 30vh);
   overflow: hidden;
   text-align: center;
 }
