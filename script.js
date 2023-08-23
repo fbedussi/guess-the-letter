@@ -110,7 +110,7 @@ ui.input.addEventListener('keydown', async (ev) => {
   ui.char.classList.add('no-blur')
 
   clearInterval(state.interval)
-  const typedChar = ev.key.toLowerCase() === 'unidentified' ? ev.currentTarget.input.value[0] : ev.key
+  const typedChar = ev.key.toLowerCase() === 'unidentified' ? ev.currentTarget.value[0] : ev.key
   const value = typedChar.toUpperCase()
   if (value.length > 1 || value < 'A' || value > 'Z') {
     return

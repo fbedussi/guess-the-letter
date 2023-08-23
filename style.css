@@ -318,10 +318,11 @@ progress {
   width: 100%;
   aspect-ratio: 1;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  font-size: clamp(20px, 35vw, 30vh);
+  font-size: clamp(20px, 33vw, 15vh);
   overflow: hidden;
+  text-align: center;
 }
 
 .no-blur {
