@@ -104,7 +104,11 @@ const updatePoints = (guessed) => {
   }
 }
 
-ui.input.addEventListener('keydown', async (ev) => {
+ui.input.addEventListener('keydown', (ev) => {
+  ev.preventDefault()
+})
+
+ui.input.addEventListener('keyup', async (ev) => {
   ui.char.classList.add('no-blur')
 
   clearInterval(state.interval)
@@ -118,10 +122,6 @@ ui.input.addEventListener('keydown', async (ev) => {
   await updatePoints(value === state.char)
   
   startRound()
-})
-
-ui.input.addEventListener('keydown', (ev) => {
-  ev.preventDefault()
 })
 
 ui.clearMaxScore.addEventListener('click', () => {
