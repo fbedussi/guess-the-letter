@@ -1,6 +1,5 @@
 import { playWonTune, playLooseTune, playBeep, playBeepBeep, mute, unmute } from './sound.js'
 
-
 const ui = {
   startScreen: document.querySelector('.start-screen'),
   startButton: document.querySelector('.start-btn'),
@@ -105,16 +104,14 @@ const updatePoints = (guessed) => {
   }
 }
 
-ui.input.addEventListener('keydown', (ev) => {
+ui.input.addEventListener('keydown', async (ev) => {
   ev.preventDefault()
-})
-
-ui.input.addEventListener('keyup', async (ev) => {
+  
   ui.char.classList.add('no-blur')
 
   clearInterval(state.interval)
-
-  const value = ev.key.toUpperCase()
+  const typedChar = ev.key.toLowerCase() === 'unidentified' ? ev.currentTarget.input.value[0] : ev.key
+  const value = typedChar.toUpperCase()
   if (value.length > 1 || value < 'A' || value > 'Z') {
     return
   } 
