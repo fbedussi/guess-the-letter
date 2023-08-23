@@ -1,78 +1,158 @@
-const startScreen = document.querySelector('#start-screen')
-const startButton = document.querySelector('#start')
+import { playWonTune, playLooseTune, playBeep, playBeepBeep, mute, unmute } from './sound.js'
 
-const playScreen = document.querySelector('#play-screen')
-const glasses = document.querySelector('#glasses')
-const pointsEl = document.querySelector('#points')
-const progress = document.querySelector('progress')
-const charEl = document.querySelector('#char')
-const input = document.querySelector('input')
+const ui = {
+  startScreen: document.querySelector('.start-screen'),
+  startButton: document.querySelector('.start-btn'),
+  clearScore: document.querySelector('.clear-score'),
+  clearMaxScore: document.querySelector('.clear-max-score'),
+  playScreen: document.querySelector('.play-screen'),
+  score: document.querySelector('.score'),
+  maxScore: document.querySelector('.max-score'),
+  progress: document.querySelector('progress'),
+  char: document.querySelector('.char'),
+  input: document.querySelector('input'),
+  pause: document.querySelector('.pause-btn'),
+  mute: document.querySelector('.mute-btn'),
+}
 
-let points = 0
+const MAX_SCORE = 'max-score'
 
-let char
-
-let interval
-
-let time
+const state = {
+  score: 0,
+  char: '',
+  interval: undefined,
+  time: undefined,
+  maxScore: Number(localStorage.getItem(MAX_SCORE)),
+  muted: false,
+}
 
 const startTime = () => {
-  clearInterval(interval)
+  clearInterval(state.interval)
   
-  time = 5
-  progress.value = time
+  state.time = 5
+  ui.progress.value = state.time
   
-  interval = setInterval(() => {
-    time--
-    progress.value = time
-    if (time === 0) {
-        startRound()
+  state.interval = setInterval(async () => {
+    state.time--
+    ui.progress.value = state.time
+    playBeep()
+    if (state.time === 0) {
+        await playBeepBeep()
+        setTimeout(startRound, 100)
     }
   }, 1000)
 }
 
 const startRound = () => {
   const letterCode = Math.round(Math.random()*24) + 65
-  char = String.fromCharCode(letterCode)
-  charEl.textContent = char
+  state.char = String.fromCharCode(letterCode)
+  ui.char.textContent = state.char
   
-  charEl.className = ''
+  ui.char.classList.remove('no-blur', 'animate-blur')
   window.requestAnimationFrame(() => {
-    charEl.className = 'animate-blur'    
+    ui.char.classList.add('animate-blur')    
   })
   
-  input.value = ''
+  ui.input.value = ''
   
-  input.focus()
+  ui.input.focus()
   
   startTime()
 }
 
-startButton.addEventListener('click', () => {
-  startScreen.classList.add('slide-out')
-  
+ui.startButton.addEventListener('click', () => {
+  ui.startScreen.classList.add('slide-out')
+  setMaxScore(state.maxScore)
   startRound()
 })
 
-playScreen.addEventListener('animationend', () => {
-  playScreen.className = 'screen'
+ui.playScreen.addEventListener('animationend', () => {
+  ui.playScreen.classList.remove('animate-success', 'animate-error')
 })
 
-input.addEventListener('keydown', () => {
-  playScreen.className = 'screen'
+ui.input.addEventListener('keydown', () => {
+  ui.playScreen.classList.remove('animate-success', 'animate-error')
 })
 
-input.addEventListener('keyup', () => {
-  charEl.className = 'no-blur'
+const setScore = (newScore) => {
+  state.score = newScore
+  ui.score.innerText = newScore
+}
 
-  if (input.value.toUpperCase() === char) {
-    points += time
-    playScreen.className = 'screen animate-success'
+const setMaxScore = (newMaxScore) => {
+  state.maxScore = newMaxScore
+  localStorage.setItem(MAX_SCORE, newMaxScore)
+  ui.maxScore.innerText = newMaxScore
+}
+
+const updatePoints = (guessed) => {
+  if (guessed) {
+    
+    ui.playScreen.classList.add('animate-success')
+    
+    setScore(state.score + state.time)
+    
+    if (state.score > state.maxScore) {
+      setMaxScore(state.score)
+    }
+    return playWonTune()
   } else {
-    points -= time
-    playScreen.className = 'screen animate-error'
+    ui.playScreen.classList.add('animate-error')
+    
+    setScore(state.score - state.time)
+    
+    return playLooseTune()
   }
-  pointsEl.innerText = points
+}
+
+ui.input.addEventListener('keydown', async (ev) => {
+  ui.char.classList.add('no-blur')
+
+  clearInterval(state.interval)
+
+  const value = ev.key.toUpperCase()
+  if (value.length > 1 || value < 'A' || value > 'Z') {
+    return
+  } 
+  ui.input.value = value
+
+  await updatePoints(value === state.char)
   
-  setTimeout(startRound, 500)
+  startRound()
+})
+ui.input.addEventListener('keydown', (ev) => {
+  ev.preventDefault()
+})
+
+ui.clearMaxScore.addEventListener('click', () => {
+  setMaxScore(0)
+})
+
+ui.clearScore.addEventListener('click', () => {
+  setScore(0)
+})
+
+ui.pause.addEventListener('click', () => {
+  if (state.interval) {
+    clearInterval(state.interval)
+    state.interval = undefined
+    ui.pause.classList.add('active')
+    ui.char.classList.add('paused')
+  } else {
+    startRound()
+    ui.char.classList.remove('paused')
+    ui.pause.classList.remove('active')
+  }
+})
+
+ui.mute.addEventListener('click', () => {
+  if (state.muted) {
+    unmute()
+    state.muted = false
+    ui.mute.classList.remove('active')
+  } else {
+    mute()
+    state.muted = true
+    ui.mute.classList.add('active')
+  }
 })

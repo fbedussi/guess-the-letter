@@ -22,6 +22,13 @@ body {
   overflow: hidden;
 }
 
+button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font: inherit;
+}
+
 .screen {
   display: flex;
   flex-direction: column;
@@ -34,7 +41,7 @@ body {
   background-color: white;
 }
 
-#play-screen {
+.play-screen {
   background: linear-gradient( 90deg,
       rgba(255, 225, 132, .7) 50%, rgba(255,255,255, 0) 50%),
     linear-gradient( 90deg,
@@ -50,10 +57,12 @@ body {
 @keyframes blur-out {
   0% {
     filter: blur(20px);
+    scale: 1.5;
   }
   
   100% {
     filter: blur(0px);
+    scale: 1;
   }
 }
 
@@ -74,7 +83,7 @@ body {
   animation: skew-y-shaking 500ms forwards;
 }
 
-.animate-error #char,
+.animate-error .char,
 .animate-error input {
   background-color: red;
 }
@@ -95,12 +104,16 @@ body {
   animation: vertical-shaking 300ms forwards;
 }
 
-.animate-success #char,
+.animate-success .char,
 .animate-success input {
   background-color: green;
 }
 
-#start-screen {
+.paused {
+  animation-play-state: paused;
+}
+
+.start-screen {
   justify-content: center;
   padding: 2rem;
   text-align: center;
@@ -129,15 +142,21 @@ p {
   text-align: center;
 }
 
-#start {
-  font-size: 200%;
+.btn {
+  font-size: 1.25rem;
   background-color: var(--col-primary);
   border: none;
-  padding: 1rem 2rem;
+  padding: 1em 2em;
   border-radius: 5px;
   color: white;
   text-transform: uppercase;
-  box-shadow: 0 0px 10px grey;
+  box-shadow: 0 0 10px grey;
+  transition: box-shadow 100ms, scale 100ms;
+}
+
+.btn:active {
+  box-shadow: 0 0 2px grey;
+  transform: scale(0.98);
 }
 
 progress {
@@ -154,26 +173,115 @@ progress {
   background-color: var(--col-secondary);
 }
 
-::-webkit-progress-bar {
-  /* background-color: var(--col-secondary); */
-}
-
-.points-wrapper {
+.controls {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
+  padding-left: 5%;
 }
 
-#points {
+.control-btns {
+  display: flex;
+  gap: 1rem;
+}
+
+.icon-btn {
+  position: relative;
+  padding: 0;
+  border-radius: 4rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.icon {
+  transition: opacity 200ms;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.icon-btn > .icon:last-child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.icon-btn.active > .icon:first-child {
+  opacity: 0;
+}
+
+.icon-btn.active > .icon:last-child {
+  opacity: 1;
+}
+
+.score-board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.score-wrapper,
+.max-score-wrapper {
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  align-items: center;
+  gap: 0.25rem;
   font-size: min(7vw,2rem);
   background-color: var(--col-secondary);
-  padding: min(5vw,2rem);
+  padding: min(1vw,1rem) min(2vw,2rem);
   color: white;
-  border-radius: 4rem 0 0 4rem;
+  text-align: right;
+  min-width: 2.5em;
+  width: 100%;
+  padding-left: 0.5em;
+}
+
+.score-wrapper {
+  border-radius: 1.5rem 0 0 0;
+}
+
+.score,
+.max-score {
+  text-align: center;
+}
+
+.score-label {
+  text-transform: uppercase;
+  color: white;
+  text-orientation: upright;
+  writing-mode: vertical-lr;
+  font-size: 0.25em;
+}
+
+.max-score-wrapper {
+  border-radius: 0 0 0 1.5rem;
+}
+
+.clear-score,
+.clear-max-score {
+  color: white;
+  font-size: 0.5em;
+  border: solid 1px white;
+  border-radius: 1rem;
+  display: inline-block;
+  aspect-ratio: 1;
+  width: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.1em;
 }
 
 .glasses-wrapper {
   padding: 0 5%;
+  width: 100%;
 }
 
 .glasses {
@@ -204,7 +312,7 @@ progress {
   align-items: center;
 }
 
-#char {
+.char {
   font-family: 'Brush Script MT', cursive;
   filter: blur(20px);
   width: 100%;
@@ -212,11 +320,11 @@ progress {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: min(30vh, 30vw);
+  font-size: clamp(20px, 35vw, 30vh);
   overflow: hidden;
 }
 
-#char.no-blur {
+.no-blur {
   filter: blur(0);
 }
 
@@ -237,4 +345,15 @@ input {
   aspect-ratio: 1;
   background-color: transparent;
   overflow: hidden;
+}
+
+.instructions {
+  font-size: 1.5rem;
+  width: 100%;
+  flex: 1;
+  background-color: moccasin;
+  padding-top: 1rem;
+  font-weight: 100;
+  color: var(--col-primary);
+  text-shadow: none;
 }
