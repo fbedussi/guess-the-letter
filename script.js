@@ -87,7 +87,6 @@ const setMaxScore = (newMaxScore) => {
 
 const updatePoints = (guessed) => {
   if (guessed) {
-    
     ui.playScreen.classList.add('animate-success')
     
     setScore(state.score + state.time)
@@ -120,6 +119,7 @@ ui.input.addEventListener('keydown', async (ev) => {
   
   startRound()
 })
+
 ui.input.addEventListener('keydown', (ev) => {
   ev.preventDefault()
 })
