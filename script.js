@@ -9,7 +9,7 @@ const ui = {
   score: document.querySelector('.score'),
   maxScore: document.querySelector('.max-score'),
   progress: document.querySelector('progress'),
-  char: document.querySelector('.char'),
+  char: document.querySelector('#char'),
   input: document.querySelector('input'),
   pause: document.querySelector('.pause-btn'),
   mute: document.querySelector('.mute-btn'),
@@ -48,9 +48,9 @@ const startRound = () => {
   state.char = String.fromCharCode(letterCode)
   ui.char.textContent = state.char
   
-  ui.char.classList.remove('no-blur', 'animate-blur')
+  ui.char.className = ''
   window.requestAnimationFrame(() => {
-    ui.char.classList.add('animate-blur')    
+    ui.char.className = 'animate-blur'
   })
   
   ui.input.value = ''
@@ -104,12 +104,8 @@ const updatePoints = (guessed) => {
   }
 }
 
-// ui.input.addEventListener('keydown', async (ev) => {
-//   ev.preventDefault()
-// })
-
 ui.input.addEventListener('input', async (ev) => {
-  ui.char.classList.add('no-blur')
+  ui.char.className = 'no-blur'
 
   clearInterval(state.interval)
   const value = ev.data.toUpperCase()

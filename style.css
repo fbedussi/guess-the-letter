@@ -312,7 +312,7 @@ progress {
   align-items: center;
 }
 
-.char {
+#char {
   font-family: 'Brush Script MT', cursive;
   filter: blur(20px);
   width: 100%;
@@ -320,7 +320,7 @@ progress {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: clamp(20px, 33vw, 30vh);
+  font-size: 31vw;
   overflow: hidden;
   text-align: center;
 }
