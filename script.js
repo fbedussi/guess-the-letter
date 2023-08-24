@@ -122,13 +122,17 @@ const updatePoints = (guessed) => {
 }
 
 ui.input.addEventListener('input', async (ev) => {
+  const value = ev.data.toUpperCase()
+  
+  if (value.length > 1 || value < 'A' || value > 'Z') {
+    ui.input.value = ''
+    return
+  } 
+  
   ui.char.className = 'no-blur'
 
   clearInterval(state.interval)
-  const value = ev.data.toUpperCase()
-  if (value.length > 1 || value < 'A' || value > 'Z') {
-    return
-  } 
+  
   ui.input.value = value
 
   ui.input.disabled = true
