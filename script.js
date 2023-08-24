@@ -28,6 +28,7 @@ const state = {
   intervalDuration: 1000,
   rounds: 0,
   level: 1,
+  maxTime: 5,
 }
 
 const startInterval = () => {
@@ -54,7 +55,7 @@ const startInterval = () => {
 const startTime = () => {
   clearInterval(state.interval)
   
-  state.time = 5
+  state.time = state.maxTime
   ui.progress.value = state.time
   
   startInterval()
@@ -115,7 +116,7 @@ const updatePoints = (guessed) => {
   } else {
     ui.playScreen.classList.add('animate-error')
     
-    setScore(state.score - state.time)
+    setScore(state.score - (state.maxTime - state.time))
     
     return playLooseTune()
   }
