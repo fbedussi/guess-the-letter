@@ -1,6 +1,7 @@
 :root {
   --col-primary: teal;
   --col-secondary: coral;
+  --duration-blur-animation: 6000;
 }
 
 * {
@@ -18,6 +19,7 @@ body,
 
 body {
   font-family: sans-serif;
+  font-weight: 100;
   position: relative;
   overflow: hidden;
 }
@@ -67,7 +69,7 @@ button {
 }
 
 .animate-blur {
-  animation: blur-out 6s linear forwards;
+  animation: blur-out calc(var(--duration-blur-animation) * 1ms) linear forwards;
 }
 
 @keyframes skew-y-shaking{
@@ -221,6 +223,14 @@ progress {
   opacity: 1;
 }
 
+.level {
+  background-color: var(--col-secondary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 3rem;
+  text-transform: uppercase;
+}
+
 .score-board {
   display: flex;
   flex-direction: column;
@@ -354,7 +364,6 @@ input {
   flex: 1;
   background-color: moccasin;
   padding-top: 1rem;
-  font-weight: 100;
   color: var(--col-primary);
   text-shadow: none;
 }

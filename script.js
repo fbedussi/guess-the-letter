@@ -13,6 +13,7 @@ const ui = {
   input: document.querySelector('input'),
   pause: document.querySelector('.pause-btn'),
   mute: document.querySelector('.mute-btn'),
+  level: document.querySelector('.level span'),
 }
 
 const MAX_SCORE = 'max-score'
@@ -24,6 +25,30 @@ const state = {
   time: undefined,
   maxScore: Number(localStorage.getItem(MAX_SCORE)),
   muted: false,
+  intervalDuration: 1000,
+  rounds: 0,
+  level: 1,
+}
+
+const startInterval = () => {
+  state.interval = setInterval(async () => {
+    state.time--
+    state.rounds++
+    if (state.level < 5 && state.rounds % 60 === 0) {
+      state.level++
+      ui.level.innerText = state.level
+      state.intervalDuration -= 100
+      document.documentElement.style.setProperty('--duration-blur-animation', state.intervalDuration * 6)
+      clearInterval(state.interval)
+      startInterval()
+    }
+    ui.progress.value = state.time
+    playBeep()
+    if (state.time === 0) {
+        await playBeepBeep()
+        setTimeout(startRound, 100)
+    }
+  }, state.intervalDuration)
 }
 
 const startTime = () => {
@@ -32,15 +57,7 @@ const startTime = () => {
   state.time = 5
   ui.progress.value = state.time
   
-  state.interval = setInterval(async () => {
-    state.time--
-    ui.progress.value = state.time
-    playBeep()
-    if (state.time === 0) {
-        await playBeepBeep()
-        setTimeout(startRound, 100)
-    }
-  }, 1000)
+  startInterval()
 }
 
 const startRound = () => {
