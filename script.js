@@ -131,7 +131,9 @@ ui.input.addEventListener('input', async (ev) => {
   } 
   ui.input.value = value
 
+  ui.input.disabled = true
   await updatePoints(value === state.char)
+  ui.input.disabled = false
   
   startRound()
 })
