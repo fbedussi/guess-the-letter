@@ -36,6 +36,14 @@
             <path d="M8 5v14l11-7z"></path>
           </svg>
         </button>
+
+        <button class="stats-btn icon-btn btn">
+          <svg class="stats-icon icon" viewBox="0 0 24 24">
+            <path
+              d="M19.88 18.47c.44-.7.7-1.51.7-2.39 0-2.49-2.01-4.5-4.5-4.5s-4.5 2.01-4.5 4.5 2.01 4.5 4.49 4.5c.88 0 1.7-.26 2.39-.7L21.58 23 23 21.58l-3.12-3.11zm-3.8.11c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zm-.36-8.5c-.74.02-1.45.18-2.1.45l-.55-.83-3.8 6.18-3.01-3.52-3.63 5.81L1 17l5-8 3 3.5L13 6l2.72 4.08zm2.59.5c-.64-.28-1.33-.45-2.05-.49L21.38 2 23 3.18l-4.69 7.4z">
+            </path>
+          </svg>
+        </button>
       </div>
       <div class="level">level <span>1</span></div>
       <div class="score-board">
@@ -76,14 +84,45 @@
   </div>
 
   <div class="start-screen screen">
-    <p>
-      Eyeglasses were invented in Venice, Italy in the 1280s
-    </p>
-    <p>
+    <p class="intro">
+      Eyeglasses were invented in Venice, Italy, in the 1280s
+      <br>
       what if they were not?
     </p>
     <button class="start-btn btn">let's try out</button>
   </div>
+
+  <dialog>
+    <div class="stats-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <td>rounds</td>
+            <td>right</td>
+            <td>wrong</td>
+            <td>average time (ms)</td>
+            <td>max time (ms)</td>
+            <td>min time (ms)</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="rounds"></td>
+            <td id="right"></td>
+            <td id="wrong"></td>
+            <td id="avg-time"></td>
+            <td id="max-time"></td>
+            <td id="min-time"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="graph"></div>
+    <form method="dialog">
+      <button class="btn">ok</button>
+    </form>
+  </dialog>
 
   <script type="module" src="script.js"></script>
   <script type="module" src="sound.js"></script>
