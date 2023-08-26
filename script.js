@@ -79,7 +79,7 @@ const startTime = () => {
 }
 
 const startRound = () => {
-  const letterCode = Math.round(Math.random()*NUMBER_OF_LETTERS) + 65
+  const letterCode = Math.round(Math.random()*(NUMBER_OF_LETTERS -1)) + 65
   state.char = String.fromCharCode(letterCode)
   ui.char.textContent = state.char
   
