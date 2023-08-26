@@ -142,8 +142,8 @@ p {
 }
 
 .intro {
-  text-shadow: 0 0px 10px grey;
-  color: white;
+  text-shadow: 0 0 5px black;
+  color: linen;
   font-size: 2rem;
 }
 
