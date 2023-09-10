@@ -27,7 +27,7 @@ const ui = {
   }
 }
 
-const MAX_SCORE = 'max-score'
+const MAX_SCORE = 'guess-the-letter-max-score'
 const NUMBER_OF_LETTERS = 26
 
 const state = {
