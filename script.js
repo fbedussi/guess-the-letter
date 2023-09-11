@@ -63,6 +63,7 @@ const startInterval = () => {
     ui.progress.value = state.time
     playBeep()
     if (state.time === 0) {
+        ui.char.className = 'no-blur'
         await playBeepBeep()
         setTimeout(startRound, 100)
     }
